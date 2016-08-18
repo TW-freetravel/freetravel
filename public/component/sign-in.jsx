@@ -17,7 +17,7 @@ class SignIn extends React.Component {
                 if (result.type == 'success') {
                     alert('success');
                     const name = result.name;
-                    $("#div1").html('Welcome:'+name);
+                    $("#div1").html('Welcome:' + name);
                     self.location = '/#/indexRent'
                 }
                 else if (result == "error") {
