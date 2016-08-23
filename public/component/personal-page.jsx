@@ -7,6 +7,7 @@ export default class PersonalPage extends Component {
     super(props);
     this.state = {
       username: 'unknown',
+      userOrder: []
     }
   }
 
@@ -26,7 +27,14 @@ export default class PersonalPage extends Component {
         console.log("statusCode:" + res.statusCode);
         const {username} = res.body;
         this.setState({username});
-      })
+      });
+
+    request.post('/api/orders/userOrder')
+      .end((err, data) => {
+        this.setState({
+          userOrder: data.body
+        });
+      });
   }
 
   render() {
@@ -34,6 +42,16 @@ export default class PersonalPage extends Component {
       <div>Personal Page</div>
       <div>Username: {this.state.username}</div>
       <div>Greeting:</div>
+      <div>userOrder:
+        {this.state.userOrder.map(o =><div>
+          <hr/>
+            <div>Name:{o.name}</div>
+            <div>Phone:{o.phone}</div>
+            <div>Address:{o.address}</div>
+            <div>OtherMessage:{o.otherMessage}</div>
+            <div>OrderProductId:{o.orderProductId}</div>
+          </div>
+        )}</div>
     </div>;
   }
 }
