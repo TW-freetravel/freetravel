@@ -55,6 +55,7 @@ class GoodsDetails extends React.Component {
 
   _submitOrder(event) {
     event.preventDefault();
+    alert(this.state.name);
   }
 
   _nameOnChange(event) {
@@ -89,6 +90,7 @@ class GoodsDetails extends React.Component {
       }
     };
   }
+
 
 
   render() {
@@ -127,7 +129,7 @@ class GoodsDetails extends React.Component {
               {/*{2>1 ? <div>111</div> :null}*/}
               {this.state.username !== "unknown" ?
                 <div>
-                  <form >
+                  <form onSubmit={this._submitOrder.bind(this)}>
                     <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                          aria-labelledby="exampleModalLabel">
                       <div className="modal-dialog" role="document">
@@ -171,9 +173,10 @@ class GoodsDetails extends React.Component {
                           </div>
                           <div className="modal-footer">
                             <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-                            <Link to='www.baidu.com'>
-                              <button type="button" className="btn btn-primary">确认租用</button>
-                            </Link>
+                            <input type="submit" value="确认租用" className="btn btn-primary"/>
+                            {/*<Link to=''>*/}
+                              {/*<button type="button" className="btn btn-primary">确认租用</button>*/}
+                            {/*</Link>*/}
                           </div>
                         </div>
                       </div>
