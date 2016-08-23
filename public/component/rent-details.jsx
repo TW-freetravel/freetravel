@@ -56,19 +56,28 @@ class GoodsDetails extends React.Component {
 
   _submitOrder(event) {
     event.preventDefault();
-    // alert(this.state.name);
-    // if(1){
-    //
-    // }else{
       request.post('/api/orders')
         .send({
           name: this.state.name,
           phone: this.state.phone,
           address: this.state.address,
-          otherMessage: this.state.otherMessage
+          otherMessage: this.state.otherMessage,
+          orderProductId:this.props.params.id
         })
-        .end();
-    // }
+        .end((err, res) => {
+          if (res.statusCode === 400 && res.text === 'Please finish the form') {
+            alert("Please finish the form!");
+          }
+          if (res.statusCode === 400 && res.text === 'The phone number is error') {
+            alert("The phone number is error!");
+          }
+          if (res.statusCode === 409) {
+            alert("已存在!");
+          }
+          if (res.statusCode === 201) {
+            alert("预约成功!");
+          }
+        });
   }
 
   _nameOnChange(event) {
@@ -129,20 +138,13 @@ class GoodsDetails extends React.Component {
             <div className="separate-right"></div>
             <p className="goods-price">商品租价：<b>{productData.price}</b>元/天</p>
             <p className="goods-address">商品所在地：<span>陕西省 西安市 长安区</span></p>
-            {/*<Link to='/orderPage'>*/}
-            {/*<button type="submit" className="enter-renter">*/}
-            {/*确认租用*/}
-            {/*</button>*/}
-            {/*</Link>*/}
             <div className="btn-zuyong">
               <button type="button" className="btn btn-primary enter-renter btn-zuyong" data-toggle="modal"
                       data-target="#exampleModal" data-whatever="@mdo" onClick={this._isLogin()}>租用
-                {/*data-target={0>1 ? '#exampleModal' : ''} data-whatever="@mdo" onClick={this._isLogin()}>租用*/}
               </button>
-              {/*{2>1 ? <div>111</div> :null}*/}
               {this.state.username !== "unknown" ?
                 <div>
-                  <form onSubmit={this._submitOrder.bind(this)}>
+                  <form onSubmit={this._submitOrder.bind(this)} >
                     <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                          aria-labelledby="exampleModalLabel">
                       <div className="modal-dialog" role="document">
@@ -185,8 +187,8 @@ class GoodsDetails extends React.Component {
                             </form>
                           </div>
                           <div className="modal-footer">
-                            <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-                            <input type="submit" value="确认租用" className="btn btn-primary"/>
+                            <button ref="closeButton" type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                            <input  type="submit" value="确认租用" className="btn btn-primary" />
                             {/*<Link to=''>*/}
                               {/*<button type="button" className="btn btn-primary">确认租用</button>*/}
                             {/*</Link>*/}

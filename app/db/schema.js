@@ -21,7 +21,8 @@ const orderSchema = new Schema({
   name:String,
   phone:String,
   address:String,
-  otherMessage:String
+  otherMessage:String,
+  orderProductId:String,
 });
 
 const User = mongoose.model('User', userSchema);
