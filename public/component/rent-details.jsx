@@ -161,7 +161,7 @@ class GoodsDetails extends React.Component {
                                 <input type="text" className="form-control" id="recipient-name"
                                        value={this.state.phone}
                                        onChange={this._phoneOnChange.bind(this)}/>
-                                {this.state.phone}
+                                {this.state.phone.length}
                               </div>
                               <div className="form-group">
                                 <label for="recipient-name" className="control-label">收货地址:</label>

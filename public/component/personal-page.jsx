@@ -30,7 +30,7 @@ export default class PersonalPage extends Component {
         }
         console.log("statusCode:" + res.statusCode);
         const {username, phone, email, password} = res.body;
-        this.setState({username, phone, email, password});
+        this.setState({username:username, phone, email, password});
       });
 
     request.post('/api/orders/userOrder')
@@ -40,78 +40,121 @@ export default class PersonalPage extends Component {
         });
       });
 
-    request.get('/api/users')
-      .query({username: '123'})
-      .end((err, res) => {
-        const userInfo = res.body;
-        // alert(userInfo);
-        const {name, phone, email, password} = res.body;
-        this.setState({username: name, phone, email, password});
-      });
+  }
 
+  _deleteOrder(id) {
+    return () => {
+      request.delete('/api/orders')
+        .query({id: id})
+        .end((err, data) => {
+          this.setState({
+            userOrder: data.body
+          });
+          alert("删除成功");
+        });
+    };
+  }
+  _showUserInfo(username){
+    return () => {
+      request.get('/api/users')
+        .query({username: username})
+        .end((err, res) => {
+          const {name, phone, email, password} = res.body;
+          this.setState({username: name, phone, email, password});
+        });
+    };
   }
 
   render() {
     return <div className="container-fluid">
-
-
-      <div className="col-md-2">
-        <ul className="nav nav-pills nav-stacked ">
-          <li role="presentation" className="active">
-            <a href="#personalInformation" data-toggle="collapse"
-               data-target="#personalInformation" aria-expanded="false"
-               aria-controls="personalInformation">个人信息</a>
+      <div className="col-md-2" role="tablist">
+        <ul className="nav  nav-pills nav-stacked ">
+          <li role="presentation" data-toggle="tab">
+            <a className="list-group-item " role="presentation" data-toggle="collapse" href="#userInfo"
+               aria-controls="userInfo" onClick={this._showUserInfo(this.state.username)}>个人信息</a>
           </li>
-          <li role="presentation">
-            <a href="#userOrder" data-toggle="collapse"
-               data-target="#userOrder" aria-expanded="false"
-               aria-controls="userOrder">个人订单</a>
-          </li>
-          <li role="presentation">
-            <a href="#">Messages</a>
+          <li role="presentation" data-toggle="tab">
+            <a className="list-group-item " role="presentation" data-toggle="collapse" href="#orderInfomations"
+               aria-controls="orderInfomations">个人订单</a>
           </li>
         </ul>
       </div>
 
+
       <div className="col-md-10">
-        <div className="collapse col-md-12" id="personalInformation">
-          <div className="well">
-            <div>Personal Page</div>
-            <div>Username: {this.state.username}</div>
-            <div>Password:<input className="input" type="password" value={this.state.password}/></div>
-            <div>Phone:{this.state.phone}</div>
-            <div>Email:{this.state.email}</div>
+        <div className="tab-content">
+          <div className="page-header">
+            <h1> Welcome:
+              <small>{this.state.username}</small>
+            </h1>
           </div>
-        </div>
-        <div className=" ">
-          <div className="well collapse col-md-12 " id="userOrder">
-            {this.state.userOrder.map(o =>
-              <div className="media">
-                <div className="media-left  media-middle">
-                  <img className="img-order" src={"../images/goods/" + o.orderImgName + ".jpg"} alt="加载失败"/>
-                </div>
-                <div className="media-body">
-                  <hr/>
-                  <div className="col-md-4">OrderProductId:{o.orderProductId}</div>
-                  <div className="col-md-4">Name:{o.name}</div>
-                  <div className="col-md-4">Phone:{o.phone}</div>
-                  <div className="col-md-4">Address:{o.address}</div>
-                  <div className="col-md-4">OtherMessage:{o.otherMessage}</div>
-                  <div className="col-md-10"></div>
-                  <div className="col-md-2">
-                    <button type="button" className="btn btn-danger">删除</button>
+
+          <div className="collapse" id="userInfo">
+            <div className="well col-md-12 ">
+              <div className="table-responsive">
+                <table className="table">
+                  <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>username</th>
+                    <th>password</th>
+                    <th>phone</th>
+                    <th>email</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>{this.state.username}</td>
+                    <td>{this.state.password}</td>
+                    <td>{this.state.phone}</td>
+                    <td>{this.state.email}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+          </div>
+
+
+          <div className="collapse" id="orderInfomations">
+            <div className="well  col-md-12 " id="userOrder">
+              {this.state.userOrder.map(order =>
+                <div className="media">
+                  <div className="media-left  media-middle">
+                    <img className="img-order" src={"../images/goods/" + order.orderImgName + ".jpg"} alt="加载失败"/>
+                  </div>
+                  <div className="media-body">
+                    <hr/>
+                    <div key={order._id}></div>
+                    <div className="col-md-4">OrderProductId:{order.orderProductId}</div>
+                    <div className="col-md-4">Price:{order.orderPrice}</div>
+                    <div className="col-md-4">Name:{order.name}</div>
+                    <div className="col-md-4">Phone:{order.phone}</div>
+                    <div className="col-md-4">Address:{order.address}</div>
+                    <div className="col-md-4">OtherMessage:{order.otherMessage}</div>
+                    <div className="col-md-10"></div>
+                    <div className="col-md-2">
+                      <button type="button" className="btn btn-danger" onClick={this._deleteOrder(order._id)}>删除</button>
+                    </div>
                   </div>
                 </div>
+              )}
+              <div className="col-md-10 "></div>
+              <div className="col-md-2 ">
+                <button type="button" className="btn btn-success">确认付款</button>
               </div>
-            )}
-            <div className="col-md-10 "></div>
-            <div className="col-md-2 ">
-              <button type="button" className="btn btn-success">确认付款</button>
             </div>
           </div>
+          <div role="tabpanel" className="tab-pane" id="messages">3</div>
+          <div role="tabpanel" className="tab-pane" id="settings">4</div>
         </div>
 
+
       </div>
+
+
     </div>
 
   }

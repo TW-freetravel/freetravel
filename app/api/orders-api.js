@@ -80,4 +80,15 @@ router.post('/userOrder', (req, res, next) => {
     res.json(orderData);
   });
 });
+
+router.delete('/',(req,res,next) => {
+  // console.log(req.query.id+"///////");
+  const id = req.query.id;
+  Order.find({_id: id}).remove(err => {
+    Order.find({},(err,newOrderData) => {
+      res.json(newOrderData);
+    });
+  });
+
+});
 export default router;
