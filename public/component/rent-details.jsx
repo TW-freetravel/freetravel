@@ -12,6 +12,7 @@ import request from 'superagent';
 import {hashHistory} from 'react-router'
 
 
+
 import '../css/rent-details.css';
 
 class GoodsDetails extends React.Component {
@@ -55,7 +56,19 @@ class GoodsDetails extends React.Component {
 
   _submitOrder(event) {
     event.preventDefault();
-    alert(this.state.name);
+    // alert(this.state.name);
+    // if(1){
+    //
+    // }else{
+      request.post('/api/orders')
+        .send({
+          name: this.state.name,
+          phone: this.state.phone,
+          address: this.state.address,
+          otherMessage: this.state.otherMessage
+        })
+        .end();
+    // }
   }
 
   _nameOnChange(event) {
