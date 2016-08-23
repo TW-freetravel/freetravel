@@ -15,15 +15,18 @@ const productSchema = new Schema({
   imgName: String,
   price: Number,
   description: String,
-  otherDescription:String
+  otherDescription: String
 });
 
 const orderSchema = new Schema({
-  name:String,
-  phone:String,
-  address:String,
-  otherMessage:String,
-  orderProductId:String,
+  name: String,
+  phone: String,
+  address: String,
+  otherMessage: String,
+  orderProductId: String,
+  orderProductName: String,
+  orderImgName: String,
+  orderPrice: Number
 });
 
 const User = mongoose.model('User', userSchema);

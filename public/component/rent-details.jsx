@@ -53,7 +53,10 @@ class GoodsDetails extends React.Component {
         phone: this.state.phone,
         address: this.state.address,
         otherMessage: this.state.otherMessage,
-        orderProductId: this.props.params.id
+        orderProductId: this.props.params.id,
+        orderProductName: this.state.product.name,
+        orderImgName: this.state.product.imgName,
+        orderPrice: this.state.product.price
       })
       .end((err, res) => {
         if (res.statusCode === 400 && res.text === 'Please finish the form') {

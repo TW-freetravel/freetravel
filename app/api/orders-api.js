@@ -50,7 +50,10 @@ router.post('/', function (req, res, next) {
           otherMessage: orderData.otherMessage,
           address: orderData.address,
           phone: orderData.phone,
-          orderProductId: orderData.orderProductId
+          orderProductId: orderData.orderProductId,
+          orderProductName: orderData.orderProductName,
+          orderImgName: orderData.orderImgName,
+          orderPrice: orderData.orderPrice
         });
         order.save(function (err) {
           if (err) return next(err);
