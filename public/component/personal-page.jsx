@@ -30,7 +30,7 @@ export default class PersonalPage extends Component {
         }
         console.log("statusCode:" + res.statusCode);
         const {username, phone, email, password} = res.body;
-        this.setState({username:username, phone, email, password});
+        this.setState({username: username, phone, email, password});
       });
 
     request.post('/api/orders/userOrder')
@@ -54,7 +54,8 @@ export default class PersonalPage extends Component {
         });
     };
   }
-  _showUserInfo(username){
+
+  _showUserInfo(username) {
     return () => {
       request.get('/api/users')
         .query({username: username})
@@ -76,6 +77,10 @@ export default class PersonalPage extends Component {
           <li role="presentation" data-toggle="tab">
             <a className="list-group-item " role="presentation" data-toggle="collapse" href="#orderInfomations"
                aria-controls="orderInfomations">个人订单</a>
+          </li>
+          <li role="presentation" data-toggle="tab">
+            <a className="list-group-item " role="presentation" data-toggle="collapse" href="#orderInfomations"
+               aria-controls="orderInfomations">Setting</a>
           </li>
         </ul>
       </div>
@@ -114,7 +119,7 @@ export default class PersonalPage extends Component {
                 </table>
               </div>
             </div>
-            
+
           </div>
 
 
@@ -127,24 +132,44 @@ export default class PersonalPage extends Component {
                   </div>
                   <div className="media-body">
                     <hr/>
-                    <div key={order._id}></div>
-                    <div className="col-md-4">OrderProductId:{order.orderProductId}</div>
-                    <div className="col-md-4">Price:{order.orderPrice}</div>
-                    <div className="col-md-4">Name:{order.name}</div>
-                    <div className="col-md-4">Phone:{order.phone}</div>
-                    <div className="col-md-4">Address:{order.address}</div>
-                    <div className="col-md-4">OtherMessage:{order.otherMessage}</div>
+                    <table className="table">
+                      <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>P-Id</th>
+                        <th>Price</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>OtherMessage</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td key={order._id}>1</td>
+                        <td>{order.orderProductId}</td>
+                        <td>{order.orderPrice}</td>
+                        <td>{order.name}</td>
+                        <td>{order.phone}</td>
+                        <td>{order.address}</td>
+                        <td>{order.otherMessage}</td>
+                      </tr>
+                      </tbody>
+                    </table>
                     <div className="col-md-10"></div>
                     <div className="col-md-2">
-                      <button type="button" className="btn btn-danger" onClick={this._deleteOrder(order._id)}>删除</button>
+                      <button type="button" className="btn btn-danger" onClick={this._deleteOrder(order._id)}>删除
+                      </button>
                     </div>
                   </div>
                 </div>
               )}
               <div className="col-md-10 "></div>
               <div className="col-md-2 ">
-                <button type="button" className="btn btn-success">确认付款</button>
+                <button type="button" className="btn btn-success" >确认付款</button>
+
               </div>
+              
             </div>
           </div>
           <div role="tabpanel" className="tab-pane" id="messages">3</div>

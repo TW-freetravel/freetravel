@@ -75,11 +75,11 @@ router.post('/', function (req, res, next) {
 });
 
 
-router.get('/', function (req, res,next) {
+router.get('/', function (req, res, next) {
   const username = req.query.username;
-  console.log(username+"!!!!!!!!!!");
-  User.findOne({name:username},(err,userInformation) => {
-    console.log(userInformation+"=========");
+  User.findOne({name: username}, (err, userInformation) => {
+    if (err) return next(err);
+
     res.json(userInformation);
   });
 

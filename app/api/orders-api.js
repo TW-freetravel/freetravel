@@ -81,11 +81,12 @@ router.post('/userOrder', (req, res, next) => {
   });
 });
 
-router.delete('/',(req,res,next) => {
-  // console.log(req.query.id+"///////");
+router.delete('/', (req, res, next) => {
   const id = req.query.id;
   Order.find({_id: id}).remove(err => {
-    Order.find({},(err,newOrderData) => {
+    if (err) return next(err);
+    Order.find({}, (err, newOrderData) => {
+      if (err) return next(err);
       res.json(newOrderData);
     });
   });
