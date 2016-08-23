@@ -1,27 +1,13 @@
 import express from 'express';
 const router = express.Router();
 import {Order} from '../db/schema';
-import {validateEmail, validatePhone} from '../shared/user-field-validation';
-
-
-// router.post('/', (req, res, next) => {
-//   const orderData = req.body;
-//   console.log('=======' + orderData.name);
-//   console.log('=======' + orderData.phone);
-//   console.log('=======' + orderData.address);
-//   console.log('=======' + orderData.otherMessage);
-//
-// });
-//
+import {validatePhone} from '../shared/user-field-validation';
 
 
 function existEmpty(orderData) {
   return !(orderData.name === '' || orderData.otherMessage === '' || orderData.address === '' || orderData.phone === '');
 }
 
-// function isEmailRight(orderData) {
-//   return validateEmail(orderData) !== false;
-// }
 
 function isPhoneRight(orderData) {
   return validatePhone(orderData) !== false;
@@ -29,15 +15,11 @@ function isPhoneRight(orderData) {
 
 function isOrderInformationLegal(orderData) {
   const isEmpty = existEmpty(orderData);
-  // const isEmail = isEmailRight(orderData);
   const isPhone = isPhoneRight(orderData);
 
   if (isEmpty === false) {
     return {type: false, message: 'Please finish the form'};
   }
-  // else if (isEmail === false) {
-  //   return {type: false, message: 'The address is error'};
-  // }
   else if (isPhone === false) {
     return {type: false, message: 'The phone number is error'};
   }
@@ -68,7 +50,7 @@ router.post('/', function (req, res, next) {
           otherMessage: orderData.otherMessage,
           address: orderData.address,
           phone: orderData.phone,
-          orderProductId:orderData.orderProductId
+          orderProductId: orderData.orderProductId
         });
         order.save(function (err) {
           if (err) return next(err);
@@ -86,5 +68,13 @@ router.post('/', function (req, res, next) {
   else {
     res.status(400).send(legal.message);
   }
+});
+
+
+router.post('/userOrder', (req, res, next) => {
+  Order.find({}, (err, orderData) => {
+    if (err) return next(err);
+    res.json(orderData);
+  });
 });
 export default router;

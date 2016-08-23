@@ -14,7 +14,8 @@ const productSchema = new Schema({
   productName: String,
   imgName: String,
   price: Number,
-  description: String
+  description: String,
+  otherDescription:String
 });
 
 const orderSchema = new Schema({

@@ -1,16 +1,7 @@
 import React from 'react';
-import ImgMain from '../images/rent-details/tent-01.jpg';
-import Img01 from '../images/rent-details/tent-details-001.jpg';
-import Img02 from '../images/rent-details/tent-details-002.jpg';
-import Img03 from '../images/rent-details/tent-details-003.jpg';
-import IntroduceImg01 from '../images/rent-details/tent-01.jpg';
-import IntroduceImg02 from '../images/rent-details/tent-details-001.jpg';
-import IntroduceImg03 from '../images/rent-details/tent-details-002.jpg';
-import IntroduceImg04 from '../images/rent-details/tent-01.jpg';
 import {Link} from 'react-router';
 import request from 'superagent';
 import {hashHistory} from 'react-router'
-
 
 
 import '../css/rent-details.css';
@@ -56,28 +47,28 @@ class GoodsDetails extends React.Component {
 
   _submitOrder(event) {
     event.preventDefault();
-      request.post('/api/orders')
-        .send({
-          name: this.state.name,
-          phone: this.state.phone,
-          address: this.state.address,
-          otherMessage: this.state.otherMessage,
-          orderProductId:this.props.params.id
-        })
-        .end((err, res) => {
-          if (res.statusCode === 400 && res.text === 'Please finish the form') {
-            alert("Please finish the form!");
-          }
-          if (res.statusCode === 400 && res.text === 'The phone number is error') {
-            alert("The phone number is error!");
-          }
-          if (res.statusCode === 409) {
-            alert("已存在!");
-          }
-          if (res.statusCode === 201) {
-            alert("预约成功!");
-          }
-        });
+    request.post('/api/orders')
+      .send({
+        name: this.state.name,
+        phone: this.state.phone,
+        address: this.state.address,
+        otherMessage: this.state.otherMessage,
+        orderProductId: this.props.params.id
+      })
+      .end((err, res) => {
+        if (res.statusCode === 400 && res.text === 'Please finish the form') {
+          alert("Please finish the form!");
+        }
+        if (res.statusCode === 400 && res.text === 'The phone number is error') {
+          alert("The phone number is error!");
+        }
+        if (res.statusCode === 409) {
+          alert("已存在!");
+        }
+        if (res.statusCode === 201) {
+          alert("预约成功!");
+        }
+      });
   }
 
   _nameOnChange(event) {
@@ -114,7 +105,6 @@ class GoodsDetails extends React.Component {
   }
 
 
-
   render() {
     const productData = this.state.product;
     return (
@@ -144,7 +134,7 @@ class GoodsDetails extends React.Component {
               </button>
               {this.state.username !== "unknown" ?
                 <div>
-                  <form onSubmit={this._submitOrder.bind(this)} >
+                  <form onSubmit={this._submitOrder.bind(this)}>
                     <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                          aria-labelledby="exampleModalLabel">
                       <div className="modal-dialog" role="document">
@@ -187,11 +177,10 @@ class GoodsDetails extends React.Component {
                             </form>
                           </div>
                           <div className="modal-footer">
-                            <button ref="closeButton" type="button" className="btn btn-default" data-dismiss="modal">Close</button>
-                            <input  type="submit" value="确认租用" className="btn btn-primary" />
-                            {/*<Link to=''>*/}
-                              {/*<button type="button" className="btn btn-primary">确认租用</button>*/}
-                            {/*</Link>*/}
+                            <button ref="closeButton" type="button" className="btn btn-default" data-dismiss="modal">
+                              Close
+                            </button>
+                            <input type="submit" value="确认租用" className="btn btn-primary"/>
                           </div>
                         </div>
                       </div>
@@ -207,60 +196,6 @@ class GoodsDetails extends React.Component {
             </div>
 
 
-            {/*<form >*/}
-            {/*<div className="modal fade" id="exampleModal" tabindex="-1" role="dialog"*/}
-            {/*aria-labelledby="exampleModalLabel">*/}
-            {/*<div className="modal-dialog" role="document">*/}
-            {/*<div className="modal-content">*/}
-            {/*<div className="modal-header">*/}
-            {/*<button type="button" className="close" data-dismiss="modal" aria-label="Close"><span*/}
-            {/*aria-hidden="true">&times;</span></button>*/}
-            {/*<h4 className="modal-title" id="exampleModalLabel">确认订单</h4>*/}
-            {/*</div>*/}
-            {/*<div className="modal-body">*/}
-            {/*<form>*/}
-            {/*<div className="form-group">*/}
-            {/*<label for="recipient-name" className="control-label">收货人姓名:</label>*/}
-            {/*<input type="text" className="form-control" id="recipient-name"*/}
-            {/*value={this.state.name}*/}
-            {/*onChange={this._nameOnChange.bind(this)}/>*/}
-            {/*{this.state.name}*/}
-            {/*</div>*/}
-            {/*<div className="form-group">*/}
-            {/*<label for="recipient-name" className="control-label">联系电话:</label>*/}
-            {/*<input type="text" className="form-control" id="recipient-name"*/}
-            {/*value={this.state.phone}*/}
-            {/*onChange={this._phoneOnChange.bind(this)}/>*/}
-            {/*{this.state.phone}*/}
-            {/*</div>*/}
-            {/*<div className="form-group">*/}
-            {/*<label for="recipient-name" className="control-label">收货地址:</label>*/}
-            {/*<input type="text" className="form-control" id="recipient-name"*/}
-            {/*value={this.state.address}*/}
-            {/*onChange={this._addressOnChange.bind(this)}/>*/}
-            {/*{this.state.address}*/}
-            {/*</div>*/}
-            {/*<div className="form-group">*/}
-            {/*<label for="message-text" className="control-label">备注:</label>*/}
-            {/*<textarea className="form-control" id="message-text"*/}
-            {/*value={this.state.otherMessage}*/}
-            {/*onChange={this._otherMessageOnChange.bind(this)}/>*/}
-            {/*{this.state.otherMessage}*/}
-            {/*</div>*/}
-            {/*</form>*/}
-            {/*</div>*/}
-            {/*<div className="modal-footer">*/}
-            {/*<button type="button" className="btn btn-default" data-dismiss="modal">Close</button>*/}
-            {/*<Link to='www.baidu.com'>*/}
-            {/*<button type="button" className="btn btn-primary">确认租用</button>*/}
-            {/*</Link>*/}
-            {/*</div>*/}
-            {/*</div>*/}
-            {/*</div>*/}
-            {/*</div>*/}
-            {/*</form>*/}
-
-
           </div>
         </div>
         <div className="goods-introduce">
@@ -272,7 +207,7 @@ class GoodsDetails extends React.Component {
             </p>
             <h2>商品其他信息：</h2>
             <p>
-              外帐添加特殊防紫外线图层，外帐添加特殊防紫外线图层—PU3000mm，190T涤纶+PU3000，经过多次防水测试，防水指数2000mm(含)-3000mm(含)（可防小到中雨），同时采用多股搅合工艺制作，提高了帐篷的抗风受力性配置POM，单独使用时，可做遮阳蓬，有效阻挡紫外线或者挡雨，公园游玩、沙滩休闲、户外垂钓、露营方便实用内帐加防紫外线涤纶，190T透气涤纶布+高密网纱，加细密纱网，透气性好，夏天使用也不会觉得闷；帐篷撑杆为实心伞架结构复合纤维杆，更轻，更耐用帐底材料为210D牛津布，耐磨防水防虫；可对叠成拎包状态，牛津提带，牢固、方便便携
+              {productData.otherDescription}
             </p>
             <h2>一句话描述：</h2>
             <p>
