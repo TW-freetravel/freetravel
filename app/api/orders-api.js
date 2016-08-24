@@ -50,7 +50,10 @@ router.post('/', function (req, res, next) {
           otherMessage: orderData.otherMessage,
           address: orderData.address,
           phone: orderData.phone,
-          orderProductId: orderData.orderProductId
+          orderProductId: orderData.orderProductId,
+          orderProductName: orderData.orderProductName,
+          orderImgName: orderData.orderImgName,
+          orderPrice: orderData.orderPrice
         });
         order.save(function (err) {
           if (err) return next(err);
@@ -76,5 +79,17 @@ router.post('/userOrder', (req, res, next) => {
     if (err) return next(err);
     res.json(orderData);
   });
+});
+
+router.delete('/', (req, res, next) => {
+  const id = req.query.id;
+  Order.find({_id: id}).remove(err => {
+    if (err) return next(err);
+    Order.find({}, (err, newOrderData) => {
+      if (err) return next(err);
+      res.json(newOrderData);
+    });
+  });
+
 });
 export default router;

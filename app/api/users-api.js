@@ -74,4 +74,14 @@ router.post('/', function (req, res, next) {
   }
 });
 
+
+router.get('/', function (req, res, next) {
+  const username = req.query.username;
+  User.findOne({name: username}, (err, userInformation) => {
+    if (err) return next(err);
+
+    res.json(userInformation);
+  });
+
+});
 export default router;
